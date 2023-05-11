@@ -59,7 +59,7 @@ go version go1.20.4 linux/amd64
 
 不过在通常编码时，我们都需要依赖于大量第三方优秀的库，而安装这些库又由于 前情提要 中所讲的那样，面临一些困难。
 
-在这里可以使用代理来避免这一问题，我选择使用 [goproxy.io](goproxy.io)
+在这里可以使用代理来避免这一问题，我选择使用 [goproxy.io](https://goproxy.io)
 
 ```
 > echo "export GOPROXY=https://proxy.golang.com.cn,direct" >> ~/.profile && source ~/.profile
@@ -102,7 +102,6 @@ go get -v golang.org/x/tools/gopls
 
 同时这里推荐使用 gopls 来作为扩展的后端
 
-```
 
 执行完毕后，可以通过命令来查看:
 
