@@ -1,6 +1,7 @@
 # 如何构建一个golang开发环境
 
 ## 前情提要
+
 由于众所周知的原因，golang的官网无法正常访问，而依赖于 *.golang.org 域名的一系列功能也经常无法正常使用
 
 这里将以前遇到的坑总结一下，并给出一份最简单的解决方案
@@ -9,25 +10,26 @@
 
 去golang官网 https://go.dev 或者 下载页面镜像 https://studygolang.com/dl 下载最新的golang安装包
 
-当前最新golang版本为 1.20.4
+当前最新golang版本为 1.21.5
 
-> 如果你使用windows，可以下载 [go1.20.4.windows-amd64.msi](https://studygolang.com/dl/golang/go1.20.4.windows-amd64.msi)
+> 如果你使用windows，可以下载 [go1.21.5.windows-amd64.msi](https://studygolang.com/dl/golang/go1.21.5.windows-amd64.msi)
 
-> 如果你使用Linux，可以选择 [go1.20.4.linux-amd64.tar.gz](https://studygolang.com/dl/golang/go1.20.4.linux-amd64.tar.gz)
+> 如果你使用Linux，可以选择 [go1.21.5.linux-amd64.tar.gz](https://studygolang.com/dl/golang/go1.21.5.linux-amd64.tar.gz)
 
 ## 进行安装
 
 参考 [Golang/Install](https://docs.studygolang.com/doc/install)
 
-> 如果你使用windows，可以运行 go1.20.4.windows-amd64.msi，不要忘记把安装地址添加进 PATH 目录
+> 如果你使用windows，可以运行 go1.21.5.windows-amd64.msi，不要忘记把安装地址添加进 PATH 目录
 
-> 如果你使用Linux，只需要使用如下命令将 go1.20.4.linux-amd64.tar.gz 解压即可
+> 如果你使用Linux，只需要使用如下命令将 go1.21.5.linux-amd64.tar.gz 解压即可
 
 **如果你之前安装过golang，记得解压前先把原有的删掉！！！**
 
 ```
 > sudo tar -C /usr/local -xzf go*linux-amd64.tar.gz
 ```
+
 请注意，这条命令可能需要root权限，请使用 sudo 运行
 
 接下来设置 *PATH* 路径
@@ -72,9 +74,9 @@ go version go1.20.4 linux/amd64
 > export GOPRIVATE=git.mycompany.com,github.com/my/private
 ```
 
-## 轻量级的编辑器
+## VS Code-go 扩展的依赖问题
 
-作为一款编辑器界的新型，VS Code 毫无疑问已经打响了自己的名声，本人也是自很久以前就一直是 VS Code 忠实用户。所以接下来介绍一下如何构建*基于VS Code的golang环境*。
+~~作为一款编辑器界的新星，VS Code 毫无疑问已经打响了自己的名声，~~ 本人也是自很久以前就一直是 VS Code 忠实用户。所以接下来介绍一下如何构建*基于VS Code的golang环境*。
 
 首先通过正常方法安装VS Code， 并在左侧扩展栏中搜索golang，选择并安装golang扩展。
 
@@ -85,29 +87,37 @@ The "gopls" command is not available. Run "go install -v golang.org/x/tools/gopl
 请点击 Install All，如果安装失败（因为VSC在安装这些时，可能不会走代理）可以尝试手动运行：
 
 ```
-go get -v github.com/uudashr/gopkgs/v2/cmd/gopkgs
-go get -v github.com/ramya-rao-a/go-outline
-go get -v github.com/cweill/gotests/gotests
-go get -v github.com/fatih/gomodifytags
-go get -v github.com/josharian/impl
-go get -v github.com/haya14busa/goplay/cmd/goplay
-go get -v github.com/go-delve/delve/cmd/dlv
-go get -v honnef.co/go/tools/cmd/staticcheck
-go get -v golang.org/x/tools/gopls
+go install -v golang.org/x/tools/gopls@latest
+go install -v github.com/cweill/gotests/gotests@latest
+go install -v github.com/haya14busa/goplay/cmd/goplay@latest
+go install -v honnef.co/go/tools/cmd/staticcheck@latest
+go install -v github.com/fatih/gomodifytags@latest
+go install -v github.com/josharian/impl@latest
+go install -v golang.org/x/tools/cmd/goimports@latest
+go install -v github.com/go-delve/delve/cmd/dlv@latest
 ```
+
+具体需要安装那些依赖可以参考这里 [vscode-go](https://github.com/golang/vscode-go/blob/master/tools/allTools.ts.in)
 
 这些命令就会走代理了
 
 并且在每次golang升级后，一般都会提醒你重新安装一遍
 
-同时这里推荐使用 gopls 来作为扩展的后端
-
+~~同时这里推荐使用 gopls 来作为扩展的后端~~(目前gopls已经被当做默认选项了)
 
 执行完毕后，可以通过命令来查看:
 
 ```
 > ls ~/go/bin
-dlv  gomodifytags  go-outline  gopkgs  goplay  gopls  gotests  impl  staticcheck
+dlv  goimports  gomodifytags  goplay  gopls  gotests  impl  staticcheck
 ```
 
 可以发现，这些第三方的代码被go get 下载之后，并且编译为二进制程序放置在 GOPATH/bin 目录下，而 VS Code 的 golang 扩展会在编写代码的过程中使用这些第三方程序。
+
+## PS:
+
+最后昨天git clone this-repo.git by ssh 的时候，发现一直出错，报 kex: this connection is closed by remote
+
+debug半天后发现是因为 steam-tools 里面加速了 github ，导致ssh失败
+
+最后在steam-tools的加速列表里把 github 去掉就行
