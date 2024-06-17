@@ -97,7 +97,7 @@ go install -v golang.org/x/tools/cmd/goimports@latest
 go install -v github.com/go-delve/delve/cmd/dlv@latest
 ```
 
-具体需要安装那些依赖可以参考这里 [vscode-go](https://github.com/golang/vscode-go/blob/master/tools/allTools.ts.in)
+具体需要安装那些依赖可以参考这里 [vscode-go](https://github.com/golang/vscode-go/blob/master/extension/tools/allTools.ts.in)
 
 这些命令就会走代理了
 
